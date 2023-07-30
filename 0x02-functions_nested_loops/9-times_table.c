@@ -1,43 +1,37 @@
-#include "main"
+#include "main.h"
+
 /**
- * times_table - check description
- * Description: It printd 9 times yable starting with 0
- * Return: nothing.
+ * times_table - prints the 9 times table, starting with 0
  */
 void times_table(void)
 {
-	int i, j, n;
+	int i, j, k;
 
-	for (i = 0; i <= 9; i++)
+	for (i = 0; i < 10; i++)
 	{
-		for (j = 0; j <= 9; i++)
+		for (j = 0; j < 10; j++)
 		{
-			(j = 0; j <= 9; j++)
+			k = j * i;
+			if (j == 0)
 			{
-				n = i*j;
-				if ((n / 10) == 0)
-				{
-					if (j != 0)
-						_putchar(' ');
-					_putchar(n + '0');
-
-					if (j == 9)
-						continue;
-					_putchar(',');
-					_putchar(' ');
-				}
-				else
-				{
-					_putchar((n / 10) + '0');
-					_putchar((n % 10) + '0');
-					if (j == 9)
-						continue;
-					_putchar(',');
-					_putchar(' ');
-				}
+				_putchar(k + '0');
 			}
-			_putchar('\n');
+
+			if (k < 10 && j != 0)
+			{
+				_putchar(',');
+				_putchar(' ');
+				_putchar(' ');
+				_putchar(k + '0');
+			} else if (k >= 10)
+			{
+				_putchar(',');
+				_putchar(' ');
+				_putchar((k / 10) + '0');
+				_putchar((k % 10) + '0');
+			}
 		}
+		_putchar('\n');
 	}
 }
 
