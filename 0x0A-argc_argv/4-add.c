@@ -33,7 +33,7 @@ unsigned int count;
 	 * @argv: Arguments
 	 * Return: Always 0 (Success)
 	 */
-Description: int main(int argc, char *argv[])
+int main(int argc, char *argv[])
 
 	{
 
