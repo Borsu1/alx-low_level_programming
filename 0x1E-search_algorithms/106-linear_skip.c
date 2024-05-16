@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <math.h>
 #include "search_algos.h"
 
 /**
@@ -7,46 +7,32 @@
  * @list: A pointer to the head of the skip list to search in.
  * @value: The value to search for.
  *
- * Return: A pointer on the first node where value is located.
- *         If value is not present in list or if head is NULL, return NULL.
+ * Return: If the value is not present or the head of the list is NULL, NULL.
+ *         Otherwise, a pointer to the first node where the value is located.
  */
 skiplist_t *linear_skip(skiplist_t *list, int value)
 {
-	skiplist_t *prev, *next;
+	skiplist_t *skip;
 
 	if (list == NULL)
 		return (NULL);
 
-	next = list->express;
-	prev = list;
-
-	printf("Value checked at index [%lu] = [%d]\n",
-		next->index, next->n);
-	while (next && next->n < value)
+	for (skip = list; skip->express != NULL; skip = skip->express)
 	{
-		prev = next;
-		if (next->express)
-		{
-			next = next->express;
-			printf("Value checked at index [%lu] = [%d]\n",
-				next->index, next->n);
-		}
-		else
-		{
-			while (next->next)
-				next = next->next;
-		}
+		printf("Value checked at index [%lu] = [%d]\n", skip->index, skip->n);
+		if (skip->express->n >= value)
+			break;
 	}
 
+	printf("Value checked at index [%lu] = [%d]\n", skip->index, skip->n);
 	printf("Value found between indexes [%lu] and [%lu]\n",
-		prev->index, next->index);
-	while (prev && prev->index <= next->index)
+		skip->index, skip->express ? skip->express->index : skip->index);
+
+	for (; skip != NULL; skip = skip->next)
 	{
-		printf("Value checked at index [%lu] = [%d]\n",
-			prev->index, prev->n);
-		if (prev->n == value)
-			return (prev);
-		prev = prev->next;
+		printf("Value checked at index [%lu] = [%d]\n", skip->index, skip->n);
+		if (skip->n == value)
+			return (skip);
 	}
 
 	return (NULL);
