@@ -6,34 +6,46 @@
  * linear_skip - Searches for a value in a sorted skip list of integers.
  * @list: A pointer to the head of the skip list to search in.
  * @value: The value to search for.
- *
  * Return: If the value is not present or the head of the list is NULL, NULL.
  *         Otherwise, a pointer to the first node where the value is located.
  */
 skiplist_t *linear_skip(skiplist_t *list, int value)
 {
-	skiplist_t *skip;
+	skiplist_t *node, *jump;
 
 	if (list == NULL)
 		return (NULL);
 
-	for (skip = list; skip->express != NULL; skip = skip->express)
+	for (node = jump = list; jump->next != NULL && jump->n < value;)
 	{
-		printf("Value checked at index [%lu] = [%d]\n", skip->index, skip->n);
-		if (skip->express->n >= value)
-			break;
+		node = jump;
+
+		if (jump->express != NULL)
+		{
+			jump = jump->express;
+
+			printf("Value checked at index [%ld] = [%d]\n",
+					jump->index, jump->n);
+	}
+		else
+		{
+			while (jump->next != NULL)
+				jump = jump->next;
+		}
 	}
 
-	printf("Value checked at index [%lu] = [%d]\n", skip->index, skip->n);
-	printf("Value found between indexes [%lu] and [%lu]\n",
-		skip->index, skip->express ? skip->express->index : skip->index);
+	printf("Value found between indexes [%ld] and [%ld]\n",
+			node->index, jump->index);
 
-	for (; skip != NULL; skip = skip->next)
+	for (; node->index < jump->index && node->n < value;
+			node = node->next)
 	{
-		printf("Value checked at index [%lu] = [%d]\n", skip->index, skip->n);
-		if (skip->n == value)
-			return (skip);
+		printf("Value checked at index [%ld] = {%d]\n",
+				node->index, node->n);
+
+	printf("Value checked at index [%ld] = [%d]\n",
+			node->index, node->n);
 	}
 
-	return (NULL);
+	return (node->n == value ? node : NULL);
 }
